@@ -64,9 +64,9 @@ class TimeUtilProTest {
 
     @org.junit.jupiter.api.Test
     void calenderToLocalDateTime() {
-        LocalDateTime expected = LocalDateTime.of(2003, 01, 10, 12, 11);
+        LocalDateTime expected = LocalDateTime.of(2003, 01, 10,0,0,0);
         Calendar cal = Calendar.getInstance();
-        cal.set(2003, Calendar.JANUARY, 10, 12, 11, 0);
+        cal.set(2003, Calendar.JANUARY, 10, 0, 0, 0);
         LocalDateTime result = TimeUtilPro.calendarToLocalDateTime(cal);
         assertEquals(expected, result);
     }
@@ -117,7 +117,7 @@ class TimeUtilProTest {
     void localDateToCalendar() {
         Calendar expected = Calendar.getInstance();
         expected.set(2003, Calendar.JANUARY, 10, 0, 0, 0);
-        expected.set(Calendar.MILLISECOND, 0);
+        expected.setTimeInMillis(0);
         Calendar result = TimeUtilPro.localDateToCalendar(LocalDate.of(2003, 1, 10));
         assertEquals(expected, result);
     }
@@ -125,9 +125,10 @@ class TimeUtilProTest {
     @org.junit.jupiter.api.Test
     void localDateTimeToCalendar() {
         Calendar expected = Calendar.getInstance();
-        expected.set(2003, Calendar.JANUARY, 10, 12, 11, 0);
+        expected.set(2003, 1, 10, 12, 11, 0);
+        expected.setTimeInMillis(0);
         expected.set(Calendar.MILLISECOND, 0);
-        Calendar result = TimeUtilPro.localDateTimeToCalendar(LocalDateTime.of(2003, 1, 10, 12, 11));
+        Calendar result = TimeUtilPro.localDateTimeToCalendar(LocalDateTime.of(2003, 1, 10, 12, 11,0));
         assertEquals(expected, result);
 
     }

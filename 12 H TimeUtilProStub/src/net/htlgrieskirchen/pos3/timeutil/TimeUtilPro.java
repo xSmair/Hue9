@@ -1,11 +1,9 @@
 package net.htlgrieskirchen.pos3.timeutil;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.Month;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class TimeUtilPro {
 
@@ -71,7 +69,11 @@ public class TimeUtilPro {
     }
 
     public static LocalDateTime calendarToLocalDateTime(Calendar dateTime) {
-        return LocalDateTime.of(dateTime.get(Calendar.YEAR), dateTime.get(Calendar.MONTH), dateTime.get(Calendar.DATE), dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE));
+        TimeZone tz = dateTime.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(dateTime.toInstant(), zid).withNano(0);
+        return localDateTime;
     }
 
     // ########## INT METHODS ##########
@@ -125,9 +127,10 @@ public class TimeUtilPro {
     }
 
     public static Calendar localDateTimeToCalendar(LocalDateTime dateTime) {
-        Calendar d = Calendar.getInstance();
-        d.set(dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth(), dateTime.getHour(), dateTime.getMinute());
-        return d;
+        Calendar c = Calendar.getInstance();
+        c.set(dateTime.getYear(), dateTime.getMonthValue(), dateTime.getDayOfMonth(), dateTime.getHour(),dateTime.getMinute(),dateTime.getSecond());
+        c.setTimeInMillis(dateTime.getNano());
+        return c;
     }
 
 }
